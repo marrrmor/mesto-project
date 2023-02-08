@@ -1,0 +1,12 @@
+.profile__edit-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+@media screen and (max-width: 618px) {
+    .profile__edit-group {
+        align-items: center;
+    }
+}
