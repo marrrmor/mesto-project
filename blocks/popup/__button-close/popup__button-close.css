@@ -16,7 +16,7 @@
     transition: .2s;
 }
 
-@media screen and (max-width: 601px) {
+@media screen and (max-width: 535px) {
     .popup__button-close {
         background-image: url(../../../images/buttons/Close_Icon_mini.svg);
         height: 20px;

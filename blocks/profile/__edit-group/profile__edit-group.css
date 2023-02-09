@@ -3,10 +3,14 @@
     flex-direction: column;
     justify-content: center;
     position: relative;
+    max-width: 75%;
+    min-width: 340px;
 }
 
 @media screen and (max-width: 618px) {
     .profile__edit-group {
-        align-items: center;
+        max-width: 80%;
+        min-width: 200px;
+        text-align: center;
     }
 }

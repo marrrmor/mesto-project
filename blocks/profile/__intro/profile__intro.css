@@ -1,15 +1,14 @@
 .profile__intro {
     display: flex;
-    justify-content: space-between;
     column-gap: 30px;
-    min-width: 294px;
-    
+    max-width: 80%;
+    align-items: center;
 }
 
 @media screen and (max-width: 618px) {
     .profile__intro {
+        min-width: 294px;
         flex-direction: column;
         row-gap: 26px;
-        align-items: center;
     }
 }

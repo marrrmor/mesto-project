@@ -1,0 +1,18 @@
+.place__button-like {
+    background-image: url(../../../images/buttons/Group.svg);
+    width: 22px;
+    height: 19px;
+    border-width: 0;
+    background-color: white;
+    padding: 0;
+    cursor: pointer;
+}
+
+.place__button-like:hover {
+    opacity: 0.5;
+    transition: .2s;
+}
+
+.place__button-like:active {
+    background-image: url(../../../images/buttons/Union.svg);
+}
