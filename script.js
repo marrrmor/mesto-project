@@ -29,6 +29,8 @@ const initialCards = [
 
 
 
+
+
 // Профиль
 const nameProfile = document.querySelector(".profile__title");                  
 const jobProfile = document.querySelector(".profile__subtitle");
@@ -49,6 +51,7 @@ const cardPhotoInput = document.querySelector(".popup__input_type_card-photo"); 
 const buttonSavePlace = document.querySelector("#save-place");                  /*кнопка сохранить новую карточку*/
 const buttonCloseInputPlace = document.querySelector(".popup__button-close_input-place");      //кнопка закрыть попап профиля
 
+
 // Попап фото
 const popupBigImage = document.querySelector(".popup.popup__big-image");
 const namePicturePopup = document.querySelector(".popup__big-image-name");
@@ -58,77 +61,88 @@ const buttonCloseImage = document.querySelector(".popup__button-close_big-image"
 const placesSet = document.querySelector(".places");                            /*Галерея фото*/
 
 
+function openPopup(popup) {
+  popup.classList.add("popup_opened");
+} 
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+}
+
 // функция подключает общие стили для попап-окон
 function openPopupProfile() {
-  popupProfile.classList.add("popup_opened");
+  openPopup(popupProfile);
 }
 
 // функция отключает стили для открытых попап-окон
 function closePopupProfile() {
-  popupProfile.classList.remove("popup_opened");
+  closePopup(popupProfile);
 }
 
 // функция подключает стили для окна попапа новых мест
 function openPopupPlace() {
-  popupPlace.classList.add("popup_opened");
+  openPopup(popupPlace);
 }
 
 // функция отключает стили для окна попапа новых мест 
 function closePopupPlace() {
-  popupPlace.classList.remove("popup_opened");
+  closePopup(popupPlace);
 }
 
 // функция подключает стили для попапа галереи
 function openPopupBigImage() {
-  popupBigImage.classList.add("popup_opened");
+  openPopup(popupBigImage);
 }
 
 // функция отключает стили для попапа галереи
 function closePopupBigImage() {
-  popupBigImage.classList.remove("popup_opened");
+  closePopup(popupBigImage);
 }
 
-/* функции редактирования профиля */
-buttonSaveProfile.addEventListener("click", function () {
-  nameProfile.textContent = nameInput.value;
-  jobProfile.textContent = jobInput.value;
-  closePopupProfile();
-});
-
-buttonCloseInputProfile.addEventListener("click", function () {
-  nameInput.value = nameProfile.textContent;
+profileButtonEdit.addEventListener("click", () => { // открыть редактирование профиля
+  nameInput.value = nameProfile.textContent; 
   jobInput.value = jobProfile.textContent;
+  openPopup(popupProfile)
 });
-
-profileButtonEdit.addEventListener("click", openPopupProfile); // открыть редактирование профиля
 buttonCloseInputProfile.addEventListener("click", closePopupProfile); // закрыть редактирование профиля
 profileButtonAdd.addEventListener("click", openPopupPlace); // открыть форму добавления карточки
 buttonCloseInputPlace.addEventListener("click", closePopupPlace); // закрыть форму добавления карточки
 buttonCloseImage.addEventListener("click", closePopupBigImage); // закрыть попап с фото
 
-
-/* поля инпут принимают значения из профиля */
-nameInput.value = nameProfile.textContent;
-jobInput.value = jobProfile.textContent;
-
 /* функция сохранения информации без обновления страницы*/
 function handleFormSubmit(evt) {
   evt.preventDefault();
+
+    nameProfile.textContent = nameInput.value;
+    jobProfile.textContent = jobInput.value;
+    closePopupProfile();
+}
+
+/* функция сохранения информации без обновления страницы*/
+function handleFormSubmitPlace(evt) {
+  evt.preventDefault();
+
+  const newCardElement = createCard(cardPhotoInput.value, cardNameInput.value);
+  placesSet.prepend(newCardElement);
+
+  cardPhotoInput.value = '';
+  cardNameInput.value = '';
+  closePopupPlace();
 }
 
 /* слушатели событий, отключающие обновление страницы при сохранении*/
 popupProfile.addEventListener("submit", handleFormSubmit);
-popupPlace.addEventListener("submit", handleFormSubmit);
-
+popupPlace.addEventListener("submit", handleFormSubmitPlace);
 
 
 const placeTemplate = document.querySelector("#place-template").content;        /*Макет карточки*/
 
 function createCard(cardPhoto, cardName) {
   const cardElement = placeTemplate.querySelector(".place").cloneNode(true);     /*Клонирование элементов*/
- 
-  cardElement.querySelector(".place__photo").src = cardPhoto;
-  cardElement.querySelector(".place__photo").alt = cardName + " фотография";
+  const itemCard = cardElement.querySelector(".place__photo");
+
+  itemCard.src = cardPhoto;
+  itemCard.alt = cardName + " фотография";
   cardElement.querySelector(".place__name").textContent = cardName;
 
   cardElement.querySelector(".place__button-like").addEventListener("click", function(evt) {
@@ -139,7 +153,7 @@ function createCard(cardPhoto, cardName) {
     evt.target.closest(".place").remove();
   });
 
-  cardElement.querySelector(".place__photo").addEventListener('click', openPhoto);
+  itemCard.addEventListener('click', openPhoto);
     
   return cardElement;
 }
@@ -155,16 +169,6 @@ function openPhoto(evt) {
     picturePopup.alt = photoImage.alt;
     namePicturePopup.textContent = photoName.textContent;
 }
-
-
-buttonSavePlace.addEventListener("click", function () {
-  const newCardElement = createCard(cardPhotoInput.value, cardNameInput.value);
-  placesSet.prepend(newCardElement);
-
-  cardPhotoInput.value = '';
-  cardNameInput.value = '';
-  closePopupPlace();
-});
 
 function addInitialCards() {
   initialCards.forEach(function(item) {
