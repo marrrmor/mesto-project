@@ -15,7 +15,7 @@
 
 .popup__input::placeholder {
     font-family: 'Inter', 'Arial', sans-serif;
-    color: #000;
+    color: #C4C4C4;
     font-size: 14px;
     font-weight: 400;
     line-height: 17px;  
@@ -23,7 +23,7 @@
 
 .popup__input::-webkit-input-placeholder {
     font-family: 'Inter', 'Arial', sans-serif;
-    color: #000;
+    color: #C4C4C4;
     font-size: 14px;
     font-weight: 400;
     line-height: 17px;  
@@ -31,7 +31,7 @@
 
 .popup__input::-moz-placeholder {
     font-family: 'Inter', 'Arial', sans-serif;
-    color: #000;
+    color: #C4C4C4;
     font-size: 14px;
     font-weight: 400;
     line-height: 17px;  
@@ -39,7 +39,7 @@
 
 .popup__input::-ms-input-placeholder {
     font-family: 'Inter', 'Arial', sans-serif;
-    color: #000;
+    color: #C4C4C4;
     font-size: 14px;
     font-weight: 400;
     line-height: 17px;  
@@ -47,7 +47,7 @@
 
 .popup__input::-o-placeholder {
     font-family: 'Inter', 'Arial', sans-serif;
-    color: #000;
+    color: #C4C4C4;
     font-size: 14px;
     font-weight: 400;
     line-height: 17px;  
