@@ -5,16 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
-    <link rel="stylesheet" href="./pages/index.css">
 </head>
 <body class="page">
     <header class="header">
-        <img src="./images/logo.svg" alt="Логотип" class="header__logo">
+        <img src="<%=require('../images/logo.png')%>" alt="Логотип" class="header__logo">
     </header>
     <main class="main">
         <section class="profile">
             <div class="profile__intro">
-                <img src="./images/Avatar.png" alt="Аватар" class="profile__avatar">
+                <img src="<%=require('../images/Avatar.png')%>" alt="Аватар" class="profile__avatar">
                 <div class="profile__edit-group">
                     <div class="profile__button-group">
                         <h1 class="profile__title">Жак-Ив&nbsp;Кусто</h1>
@@ -32,26 +31,38 @@
         <p class="footer__text">© 2020 Mesto Russia</p>
     </footer>
     <section class="popup popup__input-profile">
-        <div class="popup__container">
-            <button class="popup__button-close popup__button-close_input-profile" aria-label="Закрыть" type="button"></button>
-            <form class="popup__edit-form" name="profile-form">
+        <form class="popup__container" novalidate>
+            <button class="popup__button-close popup__button-close_input-profile" aria-label="Закрыть" type="button"></button>        
+            <fieldset class="popup__form popup__edit-form" name="profile-form">
                 <h3 class="popup__title">Редактировать профиль</h3>
-                <input type="text" class="popup__input popup__input_type_name" name="profile-name" placeholder="Жак-Ив&nbsp;Кусто">
-                <input type="text" class="popup__input popup__input_type_description" name="profile-description" placeholder="Исследователь&nbsp;океана">
+                <div class="popup__form-field">
+                    <input type="text" id="input_name" class="popup__input popup__input_type_name" name="profile-name" placeholder="Имя" minlength="2" maxlength="40" pattern="[a-zA-Zа-яА-Я\s\-]+" required>
+                    <span class="input_name-error"></span>
+                </div>
+                <div class="popup__form-field">
+                    <input type="text" id="input_description" class="popup__input popup__input_type_description" name="profile-description" placeholder="О&nbsp;себе" minlength="2" maxlength="200" pattern="[a-zA-Zа-яА-Я\s\-]+" required>
+                    <span class="input_description-error"></span>
+                </div>
                 <button id="save-profile" class="popup__button-save" type="submit">Сохранить</button>
-            </form>
-        </div>
+            </fieldset>
+        </form>
     </section>
     <section class="popup popup__input-place">
-        <div class="popup__container">
+        <form class="popup__container" novalidate>
             <button class="popup__button-close popup__button-close_input-place" aria-label="Закрыть" type="button"></button>
-            <form class="popup__edit-form" name="place-form">
+            <fieldset class="popup__form popup__edit-form" name="place-form">
                 <h3 class="popup__title">Новое место</h3>
-                <input type="text" class="popup__input popup__input_type_card-name" name="card-name" placeholder="Название">
-                <input type="text" class="popup__input popup__input_type_card-photo" name="card-photo" placeholder="Ссылка&nbsp;на&nbsp;картинку">
+                <div class="popup__form-field">
+                    <input type="text" id="input_card-name" class="popup__input popup__input_type_card-name" name="card-name" placeholder="Название" minlength="2" maxlength="30" pattern="[a-zA-Zа-яА-Я\s\-]+" required>
+                    <span class="input_card-name-error"></span>
+                </div>
+                <div class="popup__form-field">
+                    <input type="url" id="input_card-photo" class="popup__input popup__input_type_card-photo" name="card-photo" placeholder="Ссылка&nbsp;на&nbsp;картинку" required>
+                    <span class="input_card-photo-error"></span>
+                </div>
                 <button id="save-place" class="popup__button-save" type="submit">Создать</button>
-            </form>
-        </div>
+            </fieldset>
+        </form>
     </section>
     <section class="popup popup__big-image">
         <div class="popup__container_big-image">
@@ -72,7 +83,6 @@
             </div>
         </div>
     </template>
-    <script src="./script.js"></script> 
 </body>
 </html>
 
