@@ -1,4 +1,4 @@
-import { openPhoto } from "./index.js";
+import { openPhoto } from "./utils.js";
 
 
 const placeTemplate = document.querySelector("#place-template").content;        /*Макет карточки*/

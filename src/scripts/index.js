@@ -1,7 +1,7 @@
 import '../../pages/index.css';
 import { toggleButtonState, hideInputError } from './validate.js';
-import { cardNameInput, cardPhotoInput, config } from './utils.js';
-import { openPopup, closePopup, popupProfile } from './modal.js'
+import { cardNameInput, cardPhotoInput, popupProfile, config, buttonCloseImage, buttonCloseInputPlace, closePopupBigImage, profileButtonEdit, buttonCloseInputProfile, profileButtonAdd, popupPlace, nameInput, nameProfile, jobInput, jobProfile } from './utils.js';
+import { openPopup, closePopup } from './modal.js'
 import { createCard, placesSet } from './card.js';
 
 
@@ -32,32 +32,11 @@ const initialCards = [
   },
 ];
   
-const nameInput = document.querySelector(".popup__input_type_name");            /*Инпут имя*/
-const jobInput = document.querySelector(".popup__input_type_description");      /*Инпут профессия*/
-const nameProfile = document.querySelector(".profile__title");                  
-const jobProfile = document.querySelector(".profile__subtitle");
-const popupPlace = document.querySelector(".popup.popup__input-place");                      /*Попап добавления карточки*/
-const namePicturePopup = document.querySelector(".popup__big-image-name");
-const picturePopup = document.querySelector(".popup__big-image-photo");
-const buttonCloseInputProfile = document.querySelector(".popup__button-close_input-profile");      //кнопка закрыть попап профиля
+
 
 function closePopupPlace() { // функция отключает стили для окна попапа новых мест 
   closePopup(popupPlace);
 };
-
-
-const popupBigImage = document.querySelector(".popup.popup__big-image");
-// функция подключает стили для попапа галереи
-function openPopupBigImage() {
-  openPopup(popupBigImage);
-}
-
-// функция отключает стили для попапа галереи
-function closePopupBigImage() {
-  closePopup(popupBigImage);
-}
-
-const profileButtonEdit = document.querySelector(".profile__button-edit"); 
 
 profileButtonEdit.addEventListener("click", () => { // открыть редактирование профиля
   const formElement = popupProfile.querySelector(".popup__container");
@@ -78,13 +57,6 @@ profileButtonEdit.addEventListener("click", () => { // открыть редак
   openPopup(popupProfile);
 });
 
-
-
-buttonCloseInputProfile.addEventListener("click", () => closePopup(popupProfile)) // закрыть редактирование профиля
-
-
-const profileButtonAdd = document.querySelector(".profile__button-add");        /*кнопка добавления карточки*/
-
 profileButtonAdd.addEventListener("click", () => { // открыть форму добавления карточки
   const formElement = popupPlace.querySelector(".popup__container");
   const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
@@ -102,30 +74,6 @@ profileButtonAdd.addEventListener("click", () => { // открыть форму 
   openPopup(popupPlace);
   
 });
- 
-
-const buttonCloseInputPlace = document.querySelector(".popup__button-close_input-place");      //кнопка закрыть попап профиля
-
-buttonCloseInputPlace.addEventListener("click", closePopupPlace); // закрыть форму добавления карточки
-
-function openPhoto(evt) {
-  const photoCard = evt.target.closest('.place');
-  const photoImage = photoCard.querySelector('.place__photo');
-  const photoName = photoCard.querySelector('.place__name');
-
-  openPopupBigImage();
-  
-    picturePopup.src = photoImage.src;
-    picturePopup.alt = photoImage.alt;
-    namePicturePopup.textContent = photoName.textContent;
-}
-
-const buttonCloseImage = document.querySelector(".popup__button-close_big-image");          //кнопка закрыть попап с фото
-
-buttonCloseImage.addEventListener("click", closePopupBigImage); // закрыть попап с фото
-
-popupProfile.addEventListener("submit", handleFormSubmit);
-popupPlace.addEventListener("submit", handleFormSubmitPlace);
 
   
 function handleFormSubmit(evt) { // функция сохранения профиля
@@ -154,7 +102,16 @@ function addInitialCards() {
     placesSet.append(placeElement);
   });
 }
+
 addInitialCards();
-  
-export { nameInput, jobInput, nameProfile, jobProfile, handleFormSubmit, handleFormSubmitPlace, openPhoto };
+
+buttonCloseInputProfile.addEventListener("click", () => closePopup(popupProfile)) // закрыть редактирование профиля
+
+buttonCloseInputPlace.addEventListener("click", closePopupPlace); // закрыть форму добавления карточки
+
+buttonCloseImage.addEventListener("click", closePopupBigImage); // закрыть попап с фото
+
+popupProfile.addEventListener("submit", handleFormSubmit);
+
+popupPlace.addEventListener("submit", handleFormSubmitPlace);
   

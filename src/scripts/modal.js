@@ -1,6 +1,3 @@
-const popupProfile = document.querySelector(".popup.popup__input-profile");     /*Попап изменения профиля*/
-  
-
 // функция подключает общие стили для попап-окон
 function openPopup(popup) {
     popup.classList.add("popup_opened");
@@ -30,5 +27,5 @@ function closeByOverlay(evt) {
 } 
 
 
-export { openPopup, closePopup, popupProfile };
+export { openPopup, closePopup };
 

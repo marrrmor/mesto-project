@@ -65,7 +65,7 @@ const setEventListeners = (formElement) => {
   });
 };
 
-export const enableValidation = () => {
+export const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.popupContainer));
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', function (evt) {
