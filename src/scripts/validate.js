@@ -79,14 +79,6 @@ export const enableValidation = (config) => {
   });
 };
 
-enableValidation({
-  formSelector: ".popup__form", 
-  inputSelector: ".popup__input", 
-  submitButtonSelector: ".popup__button-save",
-  inactiveButtonClass: "popup__button-save_disabled",
-  inputErrorClass: "popup__input_error", 
-  popupContainer: ".popup__container",
-  textError: "popup__input_text-error"
-});
+enableValidation(config);
 
 export { toggleButtonState, hideInputError };
