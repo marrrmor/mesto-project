@@ -1,28 +1,104 @@
 import { openPhoto } from "./utils.js";
+import { deleteCard, putLike, deleteLike } from './api.js';
+
+export const placesSet = document.querySelector(".places");               //Фотогалерея
+const placeTemplate = document.querySelector("#place-template").content;  //Макет карточки
 
 
-const placeTemplate = document.querySelector("#place-template").content;        /*Макет карточки*/
-const placesSet = document.querySelector(".places");                          /*Галерея фото*/
+export function createCard(data, userId) {
+  const cardElement = placeTemplate.querySelector(".place").cloneNode(true); // клонирование элементов
+  const itemCard = cardElement.querySelector(".place__photo");
+  const likeButton = cardElement.querySelector(".place__button-like");
+  const likesCountElement = cardElement.querySelector(".place__count-likes");
+  const deleteButton = cardElement.querySelector(".place__button-delete");
 
-function createCard(cardPhoto, cardName) {
-    const cardElement = placeTemplate.querySelector(".place").cloneNode(true);     /*Клонирование элементов*/
-    const itemCard = cardElement.querySelector(".place__photo");
+  itemCard.src = data.link;
+  itemCard.alt = data.name + " фотография";
+  cardElement.querySelector(".place__name").textContent = data.name;
+  likesCountElement.textContent = data.likes.length;
   
-    itemCard.src = cardPhoto;
-    itemCard.alt = cardName + " фотография";
-    cardElement.querySelector(".place__name").textContent = cardName;
+  cardElement.setAttribute('data-id', data._id);
+
+  if (data.owner._id === userId) { //кнопка удалить только на своих карточках
+    deleteButton.classList.add("place__button-delete_active");
+    deleteButton.addEventListener("click", handleDeleteButtonClick);
+  } else {
+    deleteButton.classList.remove("place__button-delete_active");
+  }
+
+  let liked = data.likes.some(like => like._id === userId); // Проверка лайка от текущего пользователя
+
+  if (liked) {
+    likeButton.classList.add("place__button-like_active");
+  } else {
+    likeButton.classList.remove("place__button-like_active");
+  }
+        
+  likeButton.addEventListener('click', () => { //Поставить/удалить лайк
+    if (liked) {
+      deleteLike(data._id)
+      .then(() => {
+        data.likes = data.likes.filter(like => like._id !== userId);
+        liked = false;
+        likeButton.classList.remove("place__button-like_active");
+        likesCountElement.textContent = data.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    } else {
+      putLike(data._id)
+      .then(() => {
+        data.likes.push(data.owner);
+        liked = true;
+        likeButton.classList.add("place__button-like_active");
+        likesCountElement.textContent = data.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  });
+
+  itemCard.addEventListener('click', handleItemClick);
+
+  return cardElement;
+}
   
-    cardElement.querySelector(".place__button-like").addEventListener("click", function(evt) {
-      evt.target.classList.toggle("place__button-like_active");
+
+export function renderInitialCards(cardsData, userId) { // рендер карточек
+    cardsData.forEach((data) => {
+    const card = createCard(data, userId);
+    placesSet.append(card);
     });
-  
-     cardElement.querySelector(".place__button-delete").addEventListener("click", function(evt) {
-      evt.target.closest(".place").remove();
-    });
-  
-    itemCard.addEventListener('click', openPhoto);
-      
-    return cardElement;
+};
+
+
+export function renderNewCard(data, userId) { // добавить новую карточку
+  const card = createCard(data, userId);
+  placesSet.prepend(card);
 }
 
-export { placesSet, createCard };
+
+function handleItemClick(evt) {
+  openPhoto(evt);
+}
+
+
+function getCardId (evt) { //получить id карточки
+  const targetCard = evt.target.closest(".place");
+  return targetCard.dataset.id;
+}
+
+
+function handleDeleteButtonClick(evt) { // удаление карточки
+  const cardId = getCardId(evt);
+  deleteCard(cardId)
+  .then(() => {
+    evt.target.closest(".place").remove();
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+}
+

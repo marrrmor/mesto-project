@@ -13,7 +13,9 @@
     <main class="main">
         <section class="profile">
             <div class="profile__intro">
-                <img src="<%=require('../images/Avatar.png')%>" alt="Аватар" class="profile__avatar">
+                <div class="profile__avatar">
+                   <button class="profile__button-change-avatar" type="button" aria-label="Редактировать аватар"></button>
+                </div>
                 <div class="profile__edit-group">
                     <div class="profile__button-group">
                         <h1 class="profile__title">Жак-Ив&nbsp;Кусто</h1>
@@ -30,6 +32,19 @@
     <footer class="footer">
         <p class="footer__text">© 2020 Mesto Russia</p>
     </footer>
+    <section class="popup popup__change-avatar">
+        <form class="popup__container" novalidate>
+            <button class="popup__button-close popup__button-close_avatar" aria-label="Закрыть" type="button"></button>        
+            <fieldset class="popup__form popup__edit-form" name="change-avatar">
+                <h3 class="popup__title">Обновить аватар</h3>
+                <div class="popup__form-field">
+                    <input type="url" id="input_url-avatar" class="popup__input popup__input_type_url-avatar" name="url-avatar" placeholder="Ссылка&nbsp;на&nbsp;картинку" data-error-message="Вы пропустили это поле." required>
+                    <span class="input_url-avatar-error"></span>
+                </div>
+                <button id="save-avatar" class="popup__button-save" type="submit" value="Сохранить">Сохранить</button>
+            </fieldset>
+        </form>
+    </section>
     <section class="popup popup__input-profile">
         <form class="popup__container" novalidate>
             <button class="popup__button-close popup__button-close_input-profile" aria-label="Закрыть" type="button"></button>        
@@ -43,7 +58,7 @@
                     <input type="text" id="input_description" class="popup__input popup__input_type_description" name="profile-description" placeholder="О&nbsp;себе" minlength="2" maxlength="200" pattern="[a-zA-Zа-яА-Я\s\-]+" data-error-message="Вы пропустили это поле." required>
                     <span class="input_description-error"></span>
                 </div>
-                <button id="save-profile" class="popup__button-save" type="submit">Сохранить</button>
+                <button id="save-profile" class="popup__button-save" type="submit" value="Сохранить">Сохранить</button>
             </fieldset>
         </form>
     </section>
@@ -60,7 +75,7 @@
                     <input type="url" id="input_card-photo" class="popup__input popup__input_type_card-photo" name="card-photo" placeholder="Ссылка&nbsp;на&nbsp;картинку" data-error-message="Вы пропустили это поле." required>
                     <span class="input_card-photo-error"></span>
                 </div>
-                <button id="save-place" class="popup__button-save" type="submit">Создать</button>
+                <button id="save-place" class="popup__button-save" type="submit" value="Создать">Создать</button>
             </fieldset>
         </form>
     </section>
@@ -79,7 +94,10 @@
             <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg" alt="Аляска фотография" class="place__photo">
             <div class="place__description">
                 <h2 class="place__name">Аляска</h2>
-                <button class="place__button-like" aria-label="Нравится" type="button"></button>           
+                <div class="place__like-zone">
+                    <button class="place__button-like" aria-label="Нравится" type="button"></button>
+                    <p class="place__count-likes">0</p> 
+                </div>     
             </div>
         </div>
     </template>
