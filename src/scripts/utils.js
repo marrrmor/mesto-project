@@ -61,5 +61,14 @@ function openPhoto(evt) {
       namePicturePopup.textContent = photoName.textContent;
   }
 
+function renderLoading(isLoading, popup) {
+    const button = popup.querySelector(".popup__button-save");
+    if (isLoading) {
+      button.textContent = "Сохранение...";
+    } else {
+      button.textContent = button.value;
+    }
+  }
 
-export { config, openPhoto, closePopupBigImage };
+
+export { config, openPhoto, closePopupBigImage, renderLoading };

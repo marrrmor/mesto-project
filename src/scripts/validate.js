@@ -79,6 +79,17 @@ export const enableValidation = (config) => {
   });
 };
 
+
+export const removeValidationErrors = (inputList, formElement, config) => {
+  inputList.forEach((inputElement) => {
+    inputElement.value = "";
+    hideInputError(formElement, inputElement, config);
+    inputElement.classList.remove(config.inputErrorClass);
+    inputElement.setCustomValidity("");
+  });
+};
+
+
 enableValidation(config);
 
-export { toggleButtonState, hideInputError };
+export { toggleButtonState, hideInputError, checkInputValidity };

@@ -1,9 +1,9 @@
 import '../../pages/index.css';
-import { toggleButtonState, hideInputError } from './validate.js';
+import { toggleButtonState, checkInputValidity, removeValidationErrors } from './validate.js';
 import { cardNameInput, cardPhotoInput, popupProfile, config, buttonCloseImage,
   buttonCloseInputPlace, closePopupBigImage, profileButtonEdit, buttonCloseInputProfile,
   profileButtonAdd, popupPlace, nameInput, avatarProfile, nameProfile, jobInput, jobProfile,
-  avatarButton, popupAvatar, buttonCloseInputAvatar, avatarProfileInput } from './utils.js';
+  avatarButton, popupAvatar, buttonCloseInputAvatar, avatarProfileInput, renderLoading } from './utils.js';
 import { openPopup, closePopup } from './modal.js';
 import { getUsersInfo, getInitialCards, editProfile, addNewCard, changeAvatar } from './api.js';
 import { renderInitialCards, renderNewCard } from './card.js';
@@ -32,29 +32,24 @@ function renderPage() {  //рендер страницы
   })
 }
 
-
-function renderLoading(isLoading, popup) {
-  const button = popup.querySelector(".popup__button-save");
-  if (isLoading) {
-    button.textContent = "Сохранение...";
-  } else {
-    button.textContent = button.value;
-  }
-}
-
-
-avatarButton.addEventListener("click", () => { // открыть редактирование аватара
-  const formElement = popupAvatar.querySelector(".popup__container");
-  const inputElement = formElement.querySelector(".popup__input");
+function findElementsInPopup(popupSelector) {
+  const formElement = popupSelector.querySelector(".popup__container");
+  const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
   const buttonElement = formElement.querySelector(".popup__button-save");
 
-  hideInputError(formElement, inputElement, config);
-  inputElement.classList.remove("popup__input_error");
-  inputElement.setCustomValidity("");
-  
-  avatarProfileInput.value = avatarProfile.style.backgroundImage;
+  return { formElement, inputList, buttonElement };
+}
 
-  toggleButtonState(inputElement, buttonElement, config);
+avatarButton.addEventListener("click", () => { // открыть редактирование аватара
+  const { formElement, inputList, buttonElement } = findElementsInPopup(popupAvatar);
+
+  const [inputElement] = inputList ;
+
+  checkInputValidity(formElement, inputElement);
+
+  removeValidationErrors(inputList, formElement, config);
+
+  toggleButtonState(inputList, buttonElement, config);
 
   openPopup(popupAvatar);
 });
@@ -68,7 +63,7 @@ function handleFormSubmitAvatar(evt) { //функция сохранения а�
   })
   .then((data) => {
     avatarProfile.style.backgroundImage = `url("${data.avatar}")`;
-    avatarProfileInput.value = "";
+    avatarProfileInput.value.reset;
     closePopup(popupAvatar);
   })
   .catch((err) => {
@@ -81,15 +76,9 @@ function handleFormSubmitAvatar(evt) { //функция сохранения а�
 
 
 profileButtonEdit.addEventListener("click", () => { // открыть редактирование профиля
-  const formElement = popupProfile.querySelector(".popup__container");
-  const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
-  const buttonElement = formElement.querySelector(".popup__button-save");
+  const { formElement, inputList, buttonElement } = findElementsInPopup(popupProfile);
 
-  inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement, config);
-    inputElement.classList.remove(".popup__input_error");
-    inputElement.setCustomValidity("");
-  });
+  removeValidationErrors(inputList, formElement, config);
 
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
@@ -122,16 +111,10 @@ function handleFormSubmit(evt) { // функция сохранения проф
 
 
 profileButtonAdd.addEventListener("click", () => { // открыть форму добавления карточки
-  const formElement = popupPlace.querySelector(".popup__container");
-  const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
-  const buttonElement = formElement.querySelector(".popup__button-save");
 
-  inputList.forEach((inputElement) => {
-    inputElement.value = "";
-    hideInputError(formElement, inputElement, config);
-    inputElement.classList.remove(".popup__input_error");
-    inputElement.setCustomValidity("");
-  });
+  const { formElement, inputList, buttonElement } = findElementsInPopup(popupPlace);
+
+  removeValidationErrors(inputList, formElement, config);
 
   toggleButtonState(inputList, buttonElement, config);
 
@@ -148,8 +131,8 @@ function handleFormSubmitPlace(evt) { //функция сохранения в �
     })
     .then((data) => {
       renderNewCard(data, userId);
-      cardPhotoInput.value = '';
-      cardNameInput.value = '';
+      cardPhotoInput.value.reset;
+      cardNameInput.value.reset;
       closePopup(popupPlace);
     })
     .catch((err) => {
