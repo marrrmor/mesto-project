@@ -1,4 +1,4 @@
-import '../../pages/index.css';
+import '../pages/index.css';
 import { toggleButtonState, checkInputValidity, removeValidationErrors } from './validate.js';
 import {
   cardNameInput,
