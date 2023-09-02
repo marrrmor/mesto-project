@@ -1,4 +1,5 @@
 import './index.css';
+
 import { toggleButtonState, checkInputValidity, removeValidationErrors } from '../scripts/validate';
 import {
   cardNameInput,
