@@ -4,8 +4,8 @@
   "description": "Проект представляет собой одностраничный сайт для демонстрации фотографий примечательных мест. Функционал реализован с помощью JavaScript. В дальнейшем планируется доработка функционала и привязка к backend.",
   "main": "script.js",
   "scripts": {
+    "start": "webpack serve",
     "build": "webpack --mode production",
-    "dev": "webpack serve",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },

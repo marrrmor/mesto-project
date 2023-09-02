@@ -1,5 +1,5 @@
-import '../pages/index.css';
-import { toggleButtonState, checkInputValidity, removeValidationErrors } from './validate.js';
+import './index.css';
+import { toggleButtonState, checkInputValidity, removeValidationErrors } from '../scripts/validate';
 import {
   cardNameInput,
   cardPhotoInput,
@@ -22,10 +22,10 @@ import {
   buttonCloseInputAvatar,
   avatarProfileInput,
   renderLoading,
-} from './utils.js';
-import { openPopup, closePopup } from './modal.js';
-import { getUsersInfo, getInitialCards, editProfile, addNewCard, changeAvatar } from './api.js';
-import { renderInitialCards, renderNewCard } from './card.js';
+} from '../scripts/utils';
+import { openPopup, closePopup } from '../scripts/modal.js';
+import { getUsersInfo, getInitialCards, editProfile, addNewCard, changeAvatar } from '../scripts/api.js';
+import { renderInitialCards, renderNewCard } from '../scripts/card.js';
 
 let userId = null;
 
