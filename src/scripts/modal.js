@@ -1,12 +1,12 @@
 // функция подключает общие стили для попап-окон
-function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closeByEsc);
   document.addEventListener('click', closeByOverlay);
 }
 
 // функция отключает стили для открытых попап-окон
-function closePopup(popup) {
+export function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closeByEsc);
   document.removeEventListener('click', closeByOverlay);
@@ -25,5 +25,3 @@ function closeByOverlay(evt) {
     closePopup(openedPopup);
   }
 }
-
-export { openPopup, closePopup };

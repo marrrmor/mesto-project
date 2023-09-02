@@ -1,4 +1,4 @@
-import { config } from './utils.js';
+import { config } from './utils';
 
 const showInputError = (formElement, inputElement, errorMessage, config) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);

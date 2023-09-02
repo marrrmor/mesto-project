@@ -1,5 +1,3 @@
-import { openPopup, closePopup } from './modal.js';
-
 export const avatarProfile = document.querySelector('.profile__avatar'); // Аватар
 export const nameProfile = document.querySelector('.profile__title'); // Имя
 export const jobProfile = document.querySelector('.profile__subtitle'); // Деятельность
@@ -27,11 +25,11 @@ export const popupPlace = document.querySelector('.popup.popup__input-place'); /
 
 export const numberLike = document.querySelector('.place__number-like');
 
-const popupBigImage = document.querySelector('.popup.popup__big-image'); //Попап галереи фото
-const namePicturePopup = document.querySelector('.popup__big-image-name');
-const picturePopup = document.querySelector('.popup__big-image-photo');
+export const popupBigImage = document.querySelector('.popup.popup__big-image'); //Попап галереи фото
+export const namePicturePopup = document.querySelector('.popup__big-image-name');
+export const picturePopup = document.querySelector('.popup__big-image-photo');
 
-const config = {
+export const config = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button-save',
@@ -40,36 +38,3 @@ const config = {
   popupContainer: '.popup__container',
   textError: 'popup__input_text-error',
 };
-
-function openPopupBigImage() {
-  // функция подключает стили для попапа галереи
-  openPopup(popupBigImage);
-}
-
-function closePopupBigImage() {
-  // функция отключает стили для попапа галереи
-  closePopup(popupBigImage);
-}
-
-function openPhoto(evt) {
-  const photoCard = evt.target.closest('.place');
-  const photoImage = photoCard.querySelector('.place__photo');
-  const photoName = photoCard.querySelector('.place__name');
-
-  openPopupBigImage();
-
-  picturePopup.src = photoImage.src;
-  picturePopup.alt = photoImage.alt;
-  namePicturePopup.textContent = photoName.textContent;
-}
-
-function renderLoading(isLoading, popup) {
-  const button = popup.querySelector('.popup__button-save');
-  if (isLoading) {
-    button.textContent = 'Сохранение...';
-  } else {
-    button.textContent = button.value;
-  }
-}
-
-export { config, openPhoto, closePopupBigImage, renderLoading };

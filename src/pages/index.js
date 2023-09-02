@@ -25,8 +25,8 @@ import {
   renderLoading,
 } from '../scripts/utils';
 import { openPopup, closePopup } from '../scripts/modal.js';
-import { getUsersInfo, getInitialCards, editProfile, addNewCard, changeAvatar } from '../scripts/api.js';
 import { renderInitialCards, renderNewCard } from '../scripts/card.js';
+import { api } from '../scripts/service';
 
 let userId = null;
 
@@ -39,8 +39,8 @@ function renderProfile(data) {
 
 function renderPage() {
   //рендер страницы
-  const profile = getUsersInfo();
-  const cardsInitial = getInitialCards();
+  const profile = api.getUsersInfo();
+  const cardsInitial = api.getInitialCards();
   Promise.all([profile, cardsInitial])
     .then((data) => {
       const [profileData, cardsInitialData] = data;
@@ -80,9 +80,10 @@ function handleFormSubmitAvatar(evt) {
   //функция сохранения аватара
   evt.preventDefault();
   renderLoading(true, popupAvatar);
-  changeAvatar({
-    avatar: avatarProfileInput.value,
-  })
+  api
+    .changeAvatar({
+      avatar: avatarProfileInput.value,
+    })
     .then((data) => {
       avatarProfile.style.backgroundImage = `url("${data.avatar}")`;
       avatarProfileInput.value.reset;
@@ -114,10 +115,11 @@ function handleFormSubmit(evt) {
   // функция сохранения профиля
   evt.preventDefault();
   renderLoading(true, popupProfile);
-  editProfile({
-    name: nameInput.value,
-    about: jobInput.value,
-  })
+  api
+    .editProfile({
+      name: nameInput.value,
+      about: jobInput.value,
+    })
     .then((data) => {
       nameProfile.textContent = data.name;
       jobProfile.textContent = data.about;
@@ -147,10 +149,11 @@ function handleFormSubmitPlace(evt) {
   //функция сохранения в карточки
   evt.preventDefault();
   renderLoading(true, popupPlace);
-  addNewCard({
-    name: cardNameInput.value,
-    link: cardPhotoInput.value,
-  })
+  api
+    .addNewCard({
+      name: cardNameInput.value,
+      link: cardPhotoInput.value,
+    })
     .then((data) => {
       renderNewCard(data, userId);
       cardPhotoInput.value.reset;

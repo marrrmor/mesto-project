@@ -1,5 +1,5 @@
-import { openPhoto } from './utils.js';
-import { deleteCard, putLike, deleteLike } from './api.js';
+import { openPhoto } from './utils';
+import { api } from './service';
 
 export const placesSet = document.querySelector('.places'); //Фотогалерея
 const placeTemplate = document.querySelector('#place-template').content; //Макет карточки
@@ -37,7 +37,8 @@ export function createCard(data, userId) {
   likeButton.addEventListener('click', () => {
     //Поставить/удалить лайк
     if (liked) {
-      deleteLike(data._id)
+      api
+        .deleteLike(data._id)
         .then(() => {
           data.likes = data.likes.filter((like) => like._id !== userId);
           liked = false;
@@ -48,7 +49,8 @@ export function createCard(data, userId) {
           console.log(err);
         });
     } else {
-      putLike(data._id)
+      api
+        .putLike(data._id)
         .then(() => {
           data.likes.push(data.owner);
           liked = true;
@@ -93,7 +95,8 @@ function getCardId(evt) {
 function handleDeleteButtonClick(evt) {
   // удаление карточки
   const cardId = getCardId(evt);
-  deleteCard(cardId)
+  api
+    .deleteCard(cardId)
     .then(() => {
       evt.target.closest('.place').remove();
     })
