@@ -1,35 +1,59 @@
 import './index.css';
 
-import { toggleButtonState, checkInputValidity, removeValidationErrors } from '../scripts/validate';
-import {
-  cardNameInput,
-  cardPhotoInput,
-  popupProfile,
-  config,
-  buttonCloseImage,
-  buttonCloseInputPlace,
-  closePopupBigImage,
-  profileButtonEdit,
-  buttonCloseInputProfile,
-  profileButtonAdd,
-  popupPlace,
-  nameInput,
-  avatarProfile,
-  nameProfile,
-  jobInput,
-  jobProfile,
-  avatarButton,
-  popupAvatar,
-  buttonCloseInputAvatar,
-  avatarProfileInput,
-  renderLoading,
-} from '../scripts/utils';
-import { openPopup, closePopup } from '../scripts/modal.js';
+import { avatarProfile, nameProfile, jobProfile } from '../scripts/utils';
 import { renderInitialCards, renderNewCard } from '../scripts/card.js';
-import { api } from '../scripts/service';
+import { Form } from '../scripts/components';
+import { api } from '../scripts/api';
 
 let userId = null;
 
+// Avatar
+const formAvatar = new Form('.popup__change-avatar', '.profile__button-change-avatar');
+
+formAvatar.setCallbackOnSubmit(async () => {
+  const { url } = formAvatar.formEl.elements;
+  await api
+    .changeAvatar({ avatar: url.value })
+    .then(() => {
+      avatarProfile.style.backgroundImage = `url('${url.value}')`;
+    })
+    .catch(console.warn);
+});
+
+// Profile
+const formProfile = new Form('.popup__input-profile', '.profile__button-edit');
+
+formProfile.setCallbackOnOpen(() => {
+  const { name, description } = formProfile.formEl.elements;
+  name.value = nameProfile.textContent;
+  description.value = jobProfile.textContent;
+});
+
+formProfile.setCallbackOnSubmit(async () => {
+  const { name, description } = formProfile.formEl.elements;
+  await api
+    .editProfile({ name: name.value, about: description.value })
+    .then(() => {
+      nameProfile.textContent = name.value;
+      jobProfile.textContent = description.value;
+    })
+    .catch(console.warn);
+});
+
+// Place
+const formPlace = new Form('.popup__input-place', '.profile__button-add');
+
+formPlace.setCallbackOnSubmit(async () => {
+  const { name, photo } = formPlace.formEl.elements;
+  await api
+    .addNewCard({ name: name.value, link: photo.value })
+    .then((data) => {
+      renderNewCard(data, userId);
+    })
+    .catch(console.warn);
+});
+
+/** @todo in refactoring */
 function renderProfile(data) {
   // рендер профиля
   avatarProfile.style.backgroundImage = `url("${data.avatar}")`;
@@ -53,133 +77,4 @@ function renderPage() {
     });
 }
 
-function findElementsInPopup(popupSelector) {
-  const formElement = popupSelector.querySelector('.popup__container');
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-  const buttonElement = formElement.querySelector('.popup__button-save');
-
-  return { formElement, inputList, buttonElement };
-}
-
-avatarButton.addEventListener('click', () => {
-  // открыть редактирование аватара
-  const { formElement, inputList, buttonElement } = findElementsInPopup(popupAvatar);
-
-  const [inputElement] = inputList;
-
-  checkInputValidity(formElement, inputElement);
-
-  removeValidationErrors(inputList, formElement, config);
-
-  toggleButtonState(inputList, buttonElement, config);
-
-  openPopup(popupAvatar);
-});
-
-function handleFormSubmitAvatar(evt) {
-  //функция сохранения аватара
-  evt.preventDefault();
-  renderLoading(true, popupAvatar);
-  api
-    .changeAvatar({
-      avatar: avatarProfileInput.value,
-    })
-    .then((data) => {
-      avatarProfile.style.backgroundImage = `url("${data.avatar}")`;
-      avatarProfileInput.value.reset;
-      closePopup(popupAvatar);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(false, popupAvatar);
-    });
-}
-
-profileButtonEdit.addEventListener('click', () => {
-  // открыть редактирование профиля
-  const { formElement, inputList, buttonElement } = findElementsInPopup(popupProfile);
-
-  removeValidationErrors(inputList, formElement, config);
-
-  nameInput.value = nameProfile.textContent;
-  jobInput.value = jobProfile.textContent;
-
-  toggleButtonState(inputList, buttonElement, config);
-
-  openPopup(popupProfile);
-});
-
-function handleFormSubmit(evt) {
-  // функция сохранения профиля
-  evt.preventDefault();
-  renderLoading(true, popupProfile);
-  api
-    .editProfile({
-      name: nameInput.value,
-      about: jobInput.value,
-    })
-    .then((data) => {
-      nameProfile.textContent = data.name;
-      jobProfile.textContent = data.about;
-      closePopup(popupProfile);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(false, popupProfile);
-    });
-}
-
-profileButtonAdd.addEventListener('click', () => {
-  // открыть форму добавления карточки
-
-  const { formElement, inputList, buttonElement } = findElementsInPopup(popupPlace);
-
-  removeValidationErrors(inputList, formElement, config);
-
-  toggleButtonState(inputList, buttonElement, config);
-
-  openPopup(popupPlace);
-});
-
-function handleFormSubmitPlace(evt) {
-  //функция сохранения в карточки
-  evt.preventDefault();
-  renderLoading(true, popupPlace);
-  api
-    .addNewCard({
-      name: cardNameInput.value,
-      link: cardPhotoInput.value,
-    })
-    .then((data) => {
-      renderNewCard(data, userId);
-      cardPhotoInput.value.reset;
-      cardNameInput.value.reset;
-      closePopup(popupPlace);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(false, popupPlace);
-    });
-}
-
 renderPage();
-
-buttonCloseInputProfile.addEventListener('click', () => closePopup(popupProfile)); // закрыть редактирование профиля
-
-buttonCloseInputPlace.addEventListener('click', () => closePopup(popupPlace)); // закрыть форму добавления карточки
-
-buttonCloseImage.addEventListener('click', closePopupBigImage); // закрыть попап с фото
-
-buttonCloseInputAvatar.addEventListener('click', () => closePopup(popupAvatar)); // закрыть попап с аватаром
-
-popupProfile.addEventListener('submit', handleFormSubmit);
-
-popupPlace.addEventListener('submit', handleFormSubmitPlace);
-
-popupAvatar.addEventListener('submit', handleFormSubmitAvatar);

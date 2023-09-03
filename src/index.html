@@ -53,14 +53,19 @@
               type="url"
               id="input_url-avatar"
               class="popup__input popup__input_type_url-avatar"
-              name="url-avatar"
+              name="url"
               placeholder="Ссылка&nbsp;на&nbsp;картинку"
-              data-error-message="Вы пропустили это поле."
               required
             />
             <span class="input_url-avatar-error"></span>
           </div>
-          <button id="save-avatar" class="popup__button-save" type="submit" value="Сохранить">
+          <button
+            id="save-avatar"
+            class="popup__button-save"
+            type="submit"
+            data-default-text="Сохранить"
+            data-fetching-text="Сохранение..."
+          >
             Сохранить
           </button>
         </fieldset>
@@ -80,12 +85,12 @@
               type="text"
               id="input_name"
               class="popup__input popup__input_type_name"
-              name="profile-name"
+              name="name"
               placeholder="Имя"
               minlength="2"
               maxlength="40"
               pattern="[a-zA-Zа-яА-Я\s\-]+"
-              data-error-message="Вы пропустили это поле."
+              data-error-pattern="Разрешены только латинские и кириллические буквы, знаки дефиса и пробелы"
               required
             />
             <span class="input_name-error"></span>
@@ -95,17 +100,23 @@
               type="text"
               id="input_description"
               class="popup__input popup__input_type_description"
-              name="profile-description"
+              name="description"
               placeholder="О&nbsp;себе"
               minlength="2"
               maxlength="200"
               pattern="[a-zA-Zа-яА-Я\s\-]+"
-              data-error-message="Вы пропустили это поле."
+              data-error-pattern="Разрешены только латинские и кириллические буквы, знаки дефиса и пробелы"
               required
             />
             <span class="input_description-error"></span>
           </div>
-          <button id="save-profile" class="popup__button-save" type="submit" value="Сохранить">
+          <button
+            id="save-profile"
+            class="popup__button-save"
+            type="submit"
+            data-default-text="Сохранить"
+            data-fetching-text="Сохранение..."
+          >
             Сохранить
           </button>
         </fieldset>
@@ -125,12 +136,12 @@
               type="text"
               id="input_card-name"
               class="popup__input popup__input_type_card-name"
-              name="card-name"
+              name="name"
               placeholder="Название"
               minlength="2"
               maxlength="30"
               pattern="[a-zA-Zа-яА-Я\s\-]+"
-              data-error-message="Вы пропустили это поле."
+              data-error-pattern="Разрешены только латинские и кириллические буквы, знаки дефиса и пробелы"
               required
             />
             <span class="input_card-name-error"></span>
@@ -140,14 +151,19 @@
               type="url"
               id="input_card-photo"
               class="popup__input popup__input_type_card-photo"
-              name="card-photo"
+              name="photo"
               placeholder="Ссылка&nbsp;на&nbsp;картинку"
-              data-error-message="Вы пропустили это поле."
               required
             />
             <span class="input_card-photo-error"></span>
           </div>
-          <button id="save-place" class="popup__button-save" type="submit" value="Создать">
+          <button
+            id="save-place"
+            class="popup__button-save"
+            type="submit"
+            data-default-text="Создать"
+            data-fetching-text="Сохранение..."
+          >
             Создать
           </button>
         </fieldset>

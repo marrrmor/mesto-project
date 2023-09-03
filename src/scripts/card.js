@@ -1,8 +1,10 @@
-import { openPhoto } from './utils';
-import { api } from './service';
+import { picturePopup, namePicturePopup } from './utils';
+import { Popup } from './components';
+import { api } from './api';
 
 export const placesSet = document.querySelector('.places'); //Фотогалерея
 const placeTemplate = document.querySelector('#place-template').content; //Макет карточки
+const photoPopup = new Popup('.popup__big-image');
 
 export function createCard(data, userId) {
   const cardElement = placeTemplate.querySelector('.place').cloneNode(true); // клонирование элементов
@@ -103,4 +105,16 @@ function handleDeleteButtonClick(evt) {
     .catch((err) => {
       console.log(err);
     });
+}
+
+export function openPhoto(evt) {
+  const photoCard = evt.target.closest('.place');
+  const photoImage = photoCard.querySelector('.place__photo');
+  const photoName = photoCard.querySelector('.place__name');
+
+  photoPopup.openPopup();
+
+  picturePopup.src = photoImage.src;
+  picturePopup.alt = photoImage.alt;
+  namePicturePopup.textContent = photoName.textContent;
 }

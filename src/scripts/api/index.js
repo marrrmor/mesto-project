@@ -15,69 +15,77 @@ class Api {
     }
   }
 
-  getUsersInfo() {
+  async getUsersInfo() {
     // загрузка данных профиля
-    return fetch(`${config.baseUrl}/users/me`, {
+    const res = await fetch(`${config.baseUrl}/users/me`, {
       headers: config.headers,
-    }).then(this.checkRes);
+    });
+    return this.checkRes(res);
   }
 
-  getInitialCards() {
+  async getInitialCards() {
     //загрузка карточек
-    return fetch(`${config.baseUrl}/cards`, {
+    const res = await fetch(`${config.baseUrl}/cards`, {
       headers: config.headers,
-    }).then(this.checkRes);
+    });
+    return this.checkRes(res);
   }
 
-  editProfile({ name, about }) {
+  async editProfile({ name, about }) {
     // редактирование профиля
-    return fetch(`${config.baseUrl}/users/me`, {
+    const res = await fetch(`${config.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: config.headers,
       body: JSON.stringify({ name, about }),
-    }).then(this.checkRes);
+    });
+    return this.checkRes(res);
   }
 
-  addNewCard({ name, link }) {
+  async addNewCard({ name, link }) {
     //загрузка новой карточки
-    return fetch(`${config.baseUrl}/cards`, {
+    const res = await fetch(`${config.baseUrl}/cards`, {
       method: 'POST',
       headers: config.headers,
       body: JSON.stringify({ name, link }),
-    }).then(this.checkRes);
+    });
+    return this.checkRes(res);
   }
 
-  putLike(cardId) {
+  async putLike(cardId) {
     //поставить лайк
-    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    const res = await fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
       method: 'PUT',
       headers: config.headers,
-    }).then(this.checkRes);
+    });
+    return this.checkRes(res);
   }
 
-  deleteLike(cardId) {
+  async deleteLike(cardId) {
     // удалить лайк
-    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    const res = await fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
       method: 'DELETE',
       headers: config.headers,
-    }).then(this.checkRes);
+    });
+    return this.checkRes(res);
   }
 
-  deleteCard(cardId) {
+  async deleteCard(cardId) {
     //удаление карточки
-    return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    const res = await fetch(`${config.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: config.headers,
-    }).then(this.checkRes);
+    });
+    return this.checkRes(res);
   }
 
-  changeAvatar({ avatar }) {
+  async changeAvatar({ avatar }) {
     //поменять аватар
-    return fetch(`${config.baseUrl}/users/me/avatar`, {
+    const res = await fetch(`${config.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: config.headers,
       body: JSON.stringify({ avatar }),
-    }).then(this.checkRes);
+    });
+    return this.checkRes(res);
   }
 }
 
