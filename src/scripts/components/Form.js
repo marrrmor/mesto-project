@@ -20,8 +20,8 @@ export class Form extends Popup {
     this._callbackOnSubmit = callbackFn;
   }
 
-  _openPopup() {
-    super._openPopup();
+  openPopup() {
+    super.openPopup();
     if (this._callbackOnOpen) this._callbackOnOpen();
     this._disableButton({ isDisabled: true });
   }
@@ -33,7 +33,7 @@ export class Form extends Popup {
     if (this._callbackOnSubmit) {
       Promise.resolve(this._callbackOnSubmit()).finally(() => {
         this._disableButton({ isDisabled: false });
-        this._closePopup();
+        this.closePopup();
         this.formEl.reset();
       });
     }
