@@ -19,7 +19,7 @@ Promise.all([api.getUsersInfo(), api.getInitialCards()])
   })
   .catch(console.warn);
 
-// Avatar
+// Avatar form
 const formAvatar = new Form('.popup__change-avatar', '.profile__button-change-avatar');
 
 formAvatar.setCallbackOnSubmit(async () => {
@@ -30,7 +30,7 @@ formAvatar.setCallbackOnSubmit(async () => {
     .catch(console.warn);
 });
 
-// Profile
+// Profile form
 const formProfile = new Form('.popup__input-profile', '.profile__button-edit');
 
 formProfile.setCallbackOnOpen(() => {
@@ -47,7 +47,7 @@ formProfile.setCallbackOnSubmit(async () => {
     .catch(console.warn);
 });
 
-// Place
+// Place form
 const formPlace = new Form('.popup__input-place', '.profile__button-add');
 
 formPlace.setCallbackOnSubmit(async () => {

@@ -2,8 +2,8 @@ import { Popup } from './Popup';
 import { formConfig } from '../utils';
 
 export class Form extends Popup {
-  constructor(triggerSelector, popupSelector) {
-    super(triggerSelector, popupSelector);
+  constructor(popupSelector, triggerSelector) {
+    super(popupSelector, triggerSelector);
 
     this.formEl = this._popupEl.querySelector(formConfig.popupContainer);
     this._submitButton = this.formEl.querySelector(formConfig.submitButtonSelector);
