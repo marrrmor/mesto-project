@@ -1,6 +1,9 @@
 export const namePicturePopup = document.querySelector('.popup__big-image-name');
 export const picturePopup = document.querySelector('.popup__big-image-photo');
 
+export const placesSetSelector = '.places'; //Фотогалерея
+export const placeTemplateSelector = '#place-template';
+
 export const formConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',

@@ -1,4 +1,4 @@
-import { picturePopup, namePicturePopup } from './utils';
+/*import { picturePopup, namePicturePopup } from './utils';
 import { Popup } from './components';
 import { api } from './api';
 
@@ -117,4 +117,4 @@ export function openPhoto(evt) {
   picturePopup.src = photoImage.src;
   picturePopup.alt = photoImage.alt;
   namePicturePopup.textContent = photoName.textContent;
-}
+}*/

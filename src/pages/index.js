@@ -1,13 +1,30 @@
 import './index.css';
 
-import { renderInitialCards, renderNewCard } from '../scripts/card.js';
-import { Form, Profile } from '../scripts/components';
-import { api } from '../scripts/api';
+//import { renderInitialCards /*, renderNewCard*/ } from '../scripts/components/Card';
+import { Section } from '../scripts/components/Section';
+import { placesSetSelector, placeTemplateSelector } from '../scripts/utils/constants'; //, formConfig, namePicturePopup, picturePopup*/
+import { Form } from '../scripts/components/Form';
+import { Profile } from '../scripts/components/Profile';
+import { api } from '../scripts/api/api.js';
+import { Card, renderInitialCards } from '../scripts/components/Card';
 
 let userId = null;
+//
 
 // Profile
 const profile = new Profile('.profile__title', '.profile__subtitle', '.profile__avatar');
+
+//карточки
+const placeList = new Section(
+  {
+    renderer: (data) => {
+      const card = new Card(data, profile._userId, placeTemplateSelector);
+      const cardElement = card.generate();
+      placeList.setItem(cardElement);
+    },
+  },
+  placesSetSelector,
+);
 
 // render page
 Promise.all([api.getUsersInfo(), api.getInitialCards()])
