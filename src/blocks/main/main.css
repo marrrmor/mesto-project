@@ -1,12 +1,13 @@
 .main {
-    padding: 0;
-    width: 100%;
-    margin: auto;
+  padding: 0;
+  width: 100%;
+  margin: 0 auto;
+  flex-grow: 1;
 }
 
 @media screen and (max-width: 918px) {
-    .main {
-        max-width: calc(100% - 38px);
-        padding: 0 19;
-    } 
+  .main {
+    max-width: calc(100% - 38px);
+    padding: 0 19;
+  }
 }

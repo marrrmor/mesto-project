@@ -36,7 +36,6 @@
 @import url('../blocks/place/__photo/place__photo.css');
 @import url('../blocks/place/__button-like/place__button-like.css');
 @import url('../blocks/place/__button-delete/place__button-delete.css');
-@import url('../blocks/place/__button-delete/_active/place__button-delete_active.css');
 @import url('../blocks/place/__button-like/_active/place__button-like_active.css');
 @import url('../blocks/place/__like-zone/place__like-zone.css');
 @import url('../blocks/place/__count-likes/place__count-likes.css');

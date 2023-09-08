@@ -1,38 +1,34 @@
 import './index.css';
 
-//import { renderInitialCards /*, renderNewCard*/ } from '../scripts/components/Card';
 import { Section } from '../scripts/components/Section';
-import { placesSetSelector, placeTemplateSelector } from '../scripts/utils/constants'; //, formConfig, namePicturePopup, picturePopup*/
-import { Form } from '../scripts/components/Form';
 import { Profile } from '../scripts/components/Profile';
-import { api } from '../scripts/api/api.js';
-import { Card, renderInitialCards } from '../scripts/components/Card';
+import { Popup } from '../scripts/components/Popup';
+import { Form } from '../scripts/components/Form';
+import { Card } from '../scripts/components/Card';
+import { api } from '../scripts/api';
 
 let userId = null;
-//
 
 // Profile
 const profile = new Profile('.profile__title', '.profile__subtitle', '.profile__avatar');
 
-//карточки
-const placeList = new Section(
-  {
-    renderer: (data) => {
-      const card = new Card(data, profile._userId, placeTemplateSelector);
-      const cardElement = card.generate();
-      placeList.setItem(cardElement);
-    },
-  },
-  placesSetSelector,
-);
+await api
+  .getUsersInfo()
+  .then(({ _id, name, about, avatar }) => {
+    userId = _id;
+    profile.setData({ name, about, avatar });
+  })
+  .catch(console.warn);
 
-// render page
-Promise.all([api.getUsersInfo(), api.getInitialCards()])
+// Cards
+const cardsSection = new Section('.places');
+const photoPopup = new Popup('.popup__big-image');
+
+api
+  .getInitialCards()
   .then((data) => {
-    const [profileData, cardsInitialData] = data;
-    userId = profileData._id;
-    profile.setData(profileData);
-    renderInitialCards(cardsInitialData, userId);
+    const cards = data.map((cardData) => new Card(cardData, userId, photoPopup));
+    cardsSection.renderItems(cards);
   })
   .catch(console.warn);
 
@@ -71,6 +67,9 @@ formPlace.setCallbackOnSubmit(async () => {
   const { name, photo } = formPlace.formEl.elements;
   await api
     .addNewCard({ name: name.value, link: photo.value })
-    .then((data) => renderNewCard(data, userId))
+    .then((data) => {
+      const card = new Card(data, userId, photoPopup);
+      cardsSection.prependItem(card);
+    })
     .catch(console.warn);
 });

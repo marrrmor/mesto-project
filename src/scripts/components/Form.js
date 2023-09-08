@@ -1,13 +1,22 @@
 import { Popup } from './Popup';
-import { formConfig } from '../utils';
+
+const config = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button-save_disabled',
+  inputErrorClass: 'popup__input_error',
+  popupContainer: '.popup__container',
+  textError: 'popup__input_text-error',
+};
 
 export class Form extends Popup {
   constructor(popupSelector, triggerSelector) {
     super(popupSelector, triggerSelector);
 
-    this.formEl = this._popupEl.querySelector(formConfig.popupContainer);
-    this._submitButton = this.formEl.querySelector(formConfig.submitButtonSelector);
-    this._inputList = Array.from(this.formEl.querySelectorAll(formConfig.inputSelector));
+    this.formEl = this.popupEl.querySelector(config.popupContainer);
+    this._submitButton = this.formEl.querySelector(config.submitButtonSelector);
+    this._inputList = Array.from(this.formEl.querySelectorAll(config.inputSelector));
 
     this._setFormEventListenters();
   }
@@ -66,15 +75,15 @@ export class Form extends Popup {
 
   _showInputError(inputElement, errorMessage) {
     const errorElement = inputElement.nextElementSibling;
-    inputElement.classList.add(formConfig.inputErrorClass);
+    inputElement.classList.add(config.inputErrorClass);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add(formConfig.textError);
+    errorElement.classList.add(config.textError);
   }
 
   _hideInputError(inputElement) {
     const errorElement = inputElement.nextElementSibling;
-    inputElement.classList.remove(formConfig.inputErrorClass);
-    errorElement.classList.remove(formConfig.textError);
+    inputElement.classList.remove(config.inputErrorClass);
+    errorElement.classList.remove(config.textError);
     errorElement.textContent = '';
   }
 
@@ -94,9 +103,9 @@ export class Form extends Popup {
     this._submitButton.disabled = isDisabled;
 
     if (isDisabled) {
-      this._submitButton.classList.add(formConfig.inactiveButtonClass);
+      this._submitButton.classList.add(config.inactiveButtonClass);
     } else {
-      this._submitButton.classList.remove(formConfig.inactiveButtonClass);
+      this._submitButton.classList.remove(config.inactiveButtonClass);
     }
 
     if (isFetching) {

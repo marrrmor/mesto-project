@@ -1,27 +1,29 @@
-//export * from './Card';
-//export * from './Popup';
-//export * from './Form';
-//export * from './Profile';
-
 export class Section {
-  constructor({ /*items, */ renderer }, containerSelector) {
-    //this._renderedItems = items;
-    this._renderer = renderer;
+  constructor(containerSelector) {
     this._container = document.querySelector(containerSelector);
+    this._items = [];
+  }
+
+  _clear() {
+    this._container.innerHTML = '';
+  }
+
+  prependItem(item) {
+    this._items.unshift(item);
+    this._container.prepend(item);
+  }
+
+  appendItem(item) {
+    this._items.push(item);
+    this._container.append(item);
   }
 
   renderItems(items) {
-    items.forEach((item) => {
-      this._container.append(this._renderer(item));
-    });
-  }
-  /*renderItems(_renderedItems) {
-    this._renderedItems.forEach((item) => {
-      this._container.append(this._renderer(item));
-    });
-  }*/
+    this._items = items;
+    this._clear();
 
-  addItem(item) {
-    this._container.prepend(this._renderer(item));
+    const fragment = document.createDocumentFragment();
+    items.forEach((item) => fragment.append(item));
+    this._container.append(fragment);
   }
 }
