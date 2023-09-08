@@ -1,0 +1,7 @@
+.popup__form-field {
+  position: relative;
+}
+
+.popup__form-field + .popup__form-field {
+  margin-top: 10px;
+}

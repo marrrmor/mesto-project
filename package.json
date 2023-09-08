@@ -2,23 +2,18 @@
   "name": "mesto-project",
   "version": "0.0.1",
   "description": "Проект представляет собой одностраничный сайт для демонстрации фотографий примечательных мест. Функционал реализован с помощью JavaScript. В дальнейшем планируется доработка функционала и привязка к backend.",
+  "homepage": "https://github.com/marrrmor/mesto-project#readme",
   "main": "script.js",
   "scripts": {
+    "start": "webpack serve",
     "build": "webpack --mode production",
-    "dev": "webpack serve",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/marrrmor/mesto-project.git"
+  "dependencies": {
+    "core-js": "^3.31.1",
+    "normalize.css": "^8.0.1"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/marrrmor/mesto-project/issues"
-  },
-  "homepage": "https://github.com/marrrmor/mesto-project#readme",
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
@@ -34,8 +29,5 @@
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
-  },
-  "dependencies": {
-    "core-js": "^3.31.1"
   }
 }

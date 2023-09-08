@@ -1,89 +1,92 @@
 const config = {
-    baseUrl: "https://nomoreparties.co/v1/plus-cohort-27",
-    headers: {
-        authorization: "e540c1e9-8b28-4703-a61d-9aea54be84ab",
-        'Content-Type': 'application/json'
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-27',
+  headers: {
+    authorization: 'e540c1e9-8b28-4703-a61d-9aea54be84ab',
+    'Content-Type': 'application/json',
+  },
+};
+
+class Api {
+  checkRes(res) {
+    if (res.ok) {
+      return res.json();
+    } else if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
     }
-}
-
-function checkRes(res) {
-  if (res.ok) {
-    return res.json();
   }
-  else if (!res.ok) {
-    return Promise.reject(`Ошибка: ${res.status}`);
+
+  async getUsersInfo() {
+    // загрузка данных профиля
+    const res = await fetch(`${config.baseUrl}/users/me`, {
+      headers: config.headers,
+    });
+    return this.checkRes(res);
   }
-}
 
-export function getUsersInfo() {// загрузка данных профиля
-    return fetch(`${config.baseUrl}/users/me`, {
-        headers: config.headers
-    })
-    .then(checkRes)
-    };
+  async getInitialCards() {
+    //загрузка карточек
+    const res = await fetch(`${config.baseUrl}/cards`, {
+      headers: config.headers,
+    });
+    return this.checkRes(res);
+  }
 
+  async editProfile({ name, about }) {
+    // редактирование профиля
+    const res = await fetch(`${config.baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: config.headers,
+      body: JSON.stringify({ name, about }),
+    });
+    return this.checkRes(res);
+  }
 
-export function getInitialCards() {//загрузка карточек
-    return fetch(`${config.baseUrl}/cards`, {
-      headers: config.headers
-    })
-    .then(checkRes)
-    };
-    
-
-
-export function editProfile({name, about}) {// редактирование профиля
-    return fetch(`${config.baseUrl}/users/me`, {
-        method: 'PATCH',
-        headers: config.headers,
-        body: JSON.stringify({name, about}),
-    })
-    .then(checkRes)
-    };
-
-
-export function addNewCard({name, link}) {//загрузка новой карточки
-    return fetch(`${config.baseUrl}/cards`, {
+  async addNewCard({ name, link }) {
+    //загрузка новой карточки
+    const res = await fetch(`${config.baseUrl}/cards`, {
       method: 'POST',
       headers: config.headers,
-      body: JSON.stringify({name, link}),
-    })
-    .then(checkRes)
-    };
-    
+      body: JSON.stringify({ name, link }),
+    });
+    return this.checkRes(res);
+  }
 
-export function putLike(cardId) {//поставить лайк
-    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
-        method: 'PUT',
-        headers: config.headers
-    })
-    .then(checkRes)
-    };
+  async putLike(cardId) {
+    //поставить лайк
+    const res = await fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+      method: 'PUT',
+      headers: config.headers,
+    });
+    return this.checkRes(res);
+  }
 
+  async deleteLike(cardId) {
+    // удалить лайк
+    const res = await fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+      method: 'DELETE',
+      headers: config.headers,
+    });
+    return this.checkRes(res);
+  }
 
-export function deleteLike(cardId) {// удалить лайк
-    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
-        method: 'DELETE',
-        headers: config.headers
-    })
-    .then(checkRes)
-    };
+  async deleteCard(cardId) {
+    //удаление карточки
+    const res = await fetch(`${config.baseUrl}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: config.headers,
+    });
+    return this.checkRes(res);
+  }
 
+  async changeAvatar({ avatar }) {
+    //поменять аватар
+    const res = await fetch(`${config.baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: config.headers,
+      body: JSON.stringify({ avatar }),
+    });
+    return this.checkRes(res);
+  }
+}
 
-export function deleteCard(cardId) {//удаление карточки
-    return fetch(`${config.baseUrl}/cards/${cardId}`, {
-        method: 'DELETE',
-        headers: config.headers
-    })
-    .then(checkRes)
-    };
-
-  
-export function changeAvatar({avatar}) { //поменять аватар
-    return fetch(`${config.baseUrl}/users/me/avatar`, {
-        method: 'PATCH',
-        headers: config.headers,
-        body: JSON.stringify({avatar})
-    })
-    .then(checkRes)
-    };
+export const api = new Api();
