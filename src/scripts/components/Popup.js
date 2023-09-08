@@ -1,4 +1,4 @@
-export class Popup {
+export default class Popup {
   constructor(popupSelector, triggerSelector) {
     this.popupEl = document.querySelector(popupSelector);
     this._triggerEl = triggerSelector && document.querySelector(triggerSelector);

@@ -1,4 +1,4 @@
-export class Section {
+export default class Section {
   constructor(containerSelector) {
     this._container = document.querySelector(containerSelector);
     this._items = [];

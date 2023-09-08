@@ -1,4 +1,4 @@
-export class Profile {
+export default class Profile {
   constructor(nameSelector, descriptionSelector, avatarSelector) {
     this._nameEl = document.querySelector(nameSelector);
     this._descriptionEl = document.querySelector(descriptionSelector);

@@ -1,6 +1,6 @@
-import { api } from '../api';
+import { api } from './Api';
 
-export class Card {
+export default class Card {
   constructor(data, userId, photoPopup) {
     const template = document.querySelector('#place-template').content;
 

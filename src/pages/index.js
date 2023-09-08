@@ -1,11 +1,11 @@
 import './index.css';
 
-import { Section } from '../scripts/components/Section';
-import { Profile } from '../scripts/components/Profile';
-import { Popup } from '../scripts/components/Popup';
-import { Form } from '../scripts/components/Form';
-import { Card } from '../scripts/components/Card';
-import { api } from '../scripts/api';
+import Section from '../scripts/components/Section';
+import Profile from '../scripts/components/UserInfo';
+import Popup from '../scripts/components/Popup';
+import Form from '../scripts/components/FormValidator';
+import Card from '../scripts/components/Card';
+import { api } from '../scripts/components/Api';
 
 let userId = null;
 

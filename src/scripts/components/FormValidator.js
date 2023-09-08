@@ -1,4 +1,4 @@
-import { Popup } from './Popup';
+import Popup from './Popup';
 
 const config = {
   formSelector: '.popup__form',
@@ -10,7 +10,7 @@ const config = {
   textError: 'popup__input_text-error',
 };
 
-export class Form extends Popup {
+export default class Form extends Popup {
   constructor(popupSelector, triggerSelector) {
     super(popupSelector, triggerSelector);
 
