@@ -20,3 +20,9 @@ export const formValidatorConfig = {
   inputErrorClass: 'popup__input_error',
   textErrorClass: 'popup__input_text-error',
 };
+
+export const photoPopupConfig = {
+  popupSelector: '.popup__big-image',
+  imageSelector: '.popup__big-image-photo',
+  captionSelector: '.popup__big-image-name',
+};

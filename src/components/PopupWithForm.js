@@ -1,26 +1,38 @@
 import { Popup } from './Popup';
 
 export class PopupWithForm extends Popup {
-  constructor({ formName, popupSelector, triggerSelector, submitCallback, openCallback }) {
-    super({ popupSelector, triggerSelector, openCallback });
+  constructor({ formName, popupSelector, submitCallback, openCallback }) {
+    super({ popupSelector });
 
     this._formEl = document.forms[formName];
-    this._submitCallback = submitCallback;
     this._submitButton = this._formEl.querySelector('button[type="submit"]');
+
+    this._submitCallback = submitCallback;
+    this._openCallback = openCallback;
 
     this._setFormEventListenters();
   }
 
-  _onSubmit = (event) => {
+  openPopup() {
+    super.openPopup();
+    if (this._openCallback) this._openCallback(this._formEl);
+  }
+
+  _onSubmit(event) {
     event.preventDefault();
     this._disableButton({ isDisabled: true, isFetching: true });
 
-    Promise.resolve(this._submitCallback(this._formEl)).finally(() => {
-      this._disableButton({ isDisabled: true });
-      this.closePopup();
-      this._formEl.reset();
-    });
-  };
+    Promise.resolve(this._submitCallback(this._formEl))
+      .then(() => {
+        this._disableButton({ isDisabled: true });
+        this.closePopup();
+        this._formEl.reset();
+      })
+      .catch((error) => {
+        this._disableButton({ isDisabled: false });
+        console.warn(error);
+      });
+  }
 
   _disableButton({ isDisabled, isFetching = false }) {
     this._submitButton.disabled = isDisabled;
@@ -33,8 +45,6 @@ export class PopupWithForm extends Popup {
   }
 
   _setFormEventListenters() {
-    this._formEl.addEventListener('submit', this._onSubmit);
+    this._formEl.addEventListener('submit', (event) => this._onSubmit(event));
   }
 }
-
-// https://i.pinimg.com/originals/bf/89/2e/bf892e298fdfaa1c750b687eb25a0ec6.jpg
