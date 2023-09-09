@@ -20,13 +20,13 @@ export class Popup {
     this.closePopup();
   };
 
-  _closeByOverlay = ({ target }) => {
-    if (target !== this._popupEl) return;
-    this.closePopup();
+  _closeByUser = ({ target }) => {
+    if (target.classList.contains('popup') || target.classList.contains('popup__button-close')) {
+      this.closePopup();
+    }
   };
 
   _setPopupEventListeners() {
-    this._closeButton.addEventListener('click', () => this.closePopup());
-    this._popupEl.addEventListener('click', this._closeByOverlay);
+    this._popupEl.addEventListener('click', this._closeByUser);
   }
 }

@@ -70,7 +70,7 @@ export class Api {
     return this._checkResponse(response);
   }
 
-  _checkResponse(response) {
+  async _checkResponse(response) {
     if (response.ok) {
       return response.json();
     }

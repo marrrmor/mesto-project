@@ -8,11 +8,10 @@ export class FormValidator {
     this._textErrorClass = config.textErrorClass;
 
     this._callbackOnSubmit = null;
-    this._toggleButtonState();
-    this._setFormEventListenters();
   }
 
-  _setFormEventListenters() {
+  enableValidation() {
+    this._toggleButtonState();
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);

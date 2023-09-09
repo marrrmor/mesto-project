@@ -24,11 +24,10 @@ export class UserInfo {
     this.setAvatar(avatar);
   }
 
-  getName() {
-    return this._nameEl.textContent;
-  }
-
-  getAbout() {
-    return this._aboutEl.textContent;
+  getInfo() {
+    return {
+      name: this._nameEl.textContent,
+      about: this._aboutEl.textContent,
+    };
   }
 }

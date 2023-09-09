@@ -1,5 +1,3 @@
-export const userId = 'c9344cf2432c8b273baaff50';
-
 export const apiConfig = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-27',
   headers: {
@@ -26,3 +24,5 @@ export const photoPopupConfig = {
   imageSelector: '.popup__big-image-photo',
   captionSelector: '.popup__big-image-name',
 };
+
+export const cardTemplateId = '#place-template';

@@ -1,6 +1,6 @@
 export class Card {
-  constructor({ data, userId, onClickPhoto, onDeleteCard, onAddLike, onDeleteLike }) {
-    const template = document.querySelector('#place-template').content;
+  constructor({ data, templateId, userId, onClickPhoto, onDeleteCard, onAddLike, onDeleteLike }) {
+    const template = document.querySelector(templateId).content;
 
     this._data = data;
     this._userId = userId;
@@ -21,35 +21,27 @@ export class Card {
     this._onDeleteCard = onDeleteCard;
     this._onAddLike = onAddLike;
     this._onDeleteLike = onDeleteLike;
+  }
 
-    this._setTitle();
-    this._setPlacePhoto();
-    this._setDeleteButton();
+  generate() {
+    this._titleEl.textContent = this._data.name;
+
+    this._placePhotoEl.src = this._data.link;
+    this._placePhotoEl.alt = this._data.name;
+
+    if (!this._isMyCard) {
+      this._deleteButton.remove();
+      this._deleteButton = null;
+    }
+
     this._setLikeButton();
     this._setLikeCounter();
     this._setCardEventListeners();
-
     return this._cardEl;
   }
 
   _getIsLike(likes) {
     return likes.some((like) => like._id === this._userId);
-  }
-
-  _setTitle() {
-    this._titleEl.textContent = this._data.name;
-  }
-
-  _setPlacePhoto() {
-    this._placePhotoEl.src = this._data.link;
-    this._placePhotoEl.alt = this._data.name;
-  }
-
-  _setDeleteButton() {
-    if (!this._isMyCard) {
-      this._deleteButton.remove();
-      this._deleteButton = null;
-    }
   }
 
   _setLikeButton() {
@@ -89,7 +81,7 @@ export class Card {
   _handleDeleteButtonClick = () => {
     this._deleteButton.disabled = true;
 
-    Promise.resolve(this._onDeleteCard(this._data))
+    this._onDeleteCard(this._data)
       .then(() => {
         this._removeCardEventListeners();
         this._cardEl.remove();
@@ -104,14 +96,14 @@ export class Card {
     this._likeButton.disabled = true;
 
     if (this._isLiked) {
-      Promise.resolve(this._onDeleteLike(this._data))
+      this._onDeleteLike(this._data)
         .then(({ likes }) => this._onLike({ likes }))
         .catch(() => {
           console.warn(error);
           this._likeButton.disabled = false;
         });
     } else {
-      Promise.resolve(this._onAddLike(this._data))
+      this._onAddLike(this._data)
         .then(({ likes }) => this._onLike({ likes }))
         .catch(() => {
           console.warn(error);
