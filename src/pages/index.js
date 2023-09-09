@@ -3,6 +3,7 @@ import './index.css';
 import Section from '../scripts/components/Section';
 import Profile from '../scripts/components/UserInfo';
 import Popup from '../scripts/components/Popup';
+import PopupWithImage from '../scripts/components/PopupWithImage';
 import Form from '../scripts/components/FormValidator';
 import Card from '../scripts/components/Card';
 import { api } from '../scripts/components/Api';
@@ -22,12 +23,20 @@ await api
 
 // Cards
 const cardsSection = new Section('.places');
-const photoPopup = new Popup('.popup__big-image');
+
+// Popup image
+const photoPopup = new PopupWithImage('.popup__big-image');
+
+function handlePlacePhotoClick(data) {
+  photoPopup.openPopup(data);
+}
 
 api
   .getInitialCards()
   .then((data) => {
-    const cards = data.map((cardData) => new Card(cardData, userId, photoPopup));
+    const cards = data.map(
+      (cardData) => new Card(cardData, userId, photoPopup, { handlePlacePhotoClick }),
+    );
     cardsSection.renderItems(cards);
   })
   .catch(console.warn);
@@ -68,7 +77,7 @@ formPlace.setCallbackOnSubmit(async () => {
   await api
     .addNewCard({ name: name.value, link: photo.value })
     .then((data) => {
-      const card = new Card(data, userId, photoPopup);
+      const card = new Card(data, userId /*, photoPopup*/);
       cardsSection.prependItem(card);
     })
     .catch(console.warn);

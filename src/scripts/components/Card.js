@@ -1,7 +1,7 @@
 import { api } from './Api';
 
 export default class Card {
-  constructor(data, userId, photoPopup) {
+  constructor(data, userId, photoPopup, { handlePlacePhotoClick }) {
     const template = document.querySelector('#place-template').content;
 
     this._data = data;
@@ -22,6 +22,7 @@ export default class Card {
     this._deleteButton = this._cardEl.querySelector('.place__button-delete');
     this._likeButton = this._cardEl.querySelector('.place__button-like');
     this._likeCounterEl = this._cardEl.querySelector('.place__count-likes');
+    this._handlePlacePhotoClick = handlePlacePhotoClick;
 
     this._setTitle();
     this._setPlacePhoto();
@@ -66,7 +67,9 @@ export default class Card {
   }
 
   _setCardEventListeners() {
-    this._placePhotoEl.addEventListener('click', this._handlePlacePhotoClick);
+    this._placePhotoEl.addEventListener('click', () => {
+      this._handlePlacePhotoClick(this._data);
+    });
     this._likeButton.addEventListener('click', this._handleLikeButtonClick);
 
     if (this._deleteButton) {
@@ -83,12 +86,12 @@ export default class Card {
     }
   }
 
-  _handlePlacePhotoClick = () => {
+  /*_handlePlacePhotoClick = () => {
     this._popupImage.src = this._data.link;
     this._popupImage.alt = this._data.name;
     this._popupTitle.textContent = this._data.name;
     this._popup.openPopup();
-  };
+  };*/
 
   _handleDeleteButtonClick = () => {
     this._deleteButton.disabled = true;
