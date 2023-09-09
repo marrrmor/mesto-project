@@ -1,8 +1,6 @@
-import { api } from '../api';
-
 export class Card {
-  constructor(data, userId, photoPopup) {
-    const template = document.querySelector('#place-template').content;
+  constructor({ data, templateId, userId, onClickPhoto, onDeleteCard, onAddLike, onDeleteLike }) {
+    const template = document.querySelector(templateId).content;
 
     this._data = data;
     this._userId = userId;
@@ -10,10 +8,6 @@ export class Card {
     this._isMyCard = data.owner._id === this._userId;
     this._likes = data.likes;
     this._isLiked = this._getIsLike(data.likes);
-
-    this._popup = photoPopup;
-    this._popupImage = photoPopup.popupEl.querySelector('.popup__big-image-photo');
-    this._popupTitle = photoPopup.popupEl.querySelector('.popup__big-image-name');
 
     this._cardEl = template.querySelector('.place').cloneNode(true);
 
@@ -23,34 +17,31 @@ export class Card {
     this._likeButton = this._cardEl.querySelector('.place__button-like');
     this._likeCounterEl = this._cardEl.querySelector('.place__count-likes');
 
-    this._setTitle();
-    this._setPlacePhoto();
-    this._setDeleteButton();
+    this._onClickPhoto = onClickPhoto;
+    this._onDeleteCard = onDeleteCard;
+    this._onAddLike = onAddLike;
+    this._onDeleteLike = onDeleteLike;
+  }
+
+  generate() {
+    this._titleEl.textContent = this._data.name;
+
+    this._placePhotoEl.src = this._data.link;
+    this._placePhotoEl.alt = this._data.name;
+
+    if (!this._isMyCard) {
+      this._deleteButton.remove();
+      this._deleteButton = null;
+    }
+
     this._setLikeButton();
     this._setLikeCounter();
     this._setCardEventListeners();
-
     return this._cardEl;
   }
 
   _getIsLike(likes) {
     return likes.some((like) => like._id === this._userId);
-  }
-
-  _setTitle() {
-    this._titleEl.textContent = this._data.name;
-  }
-
-  _setPlacePhoto() {
-    this._placePhotoEl.src = this._data.link;
-    this._placePhotoEl.alt = this._data.name;
-  }
-
-  _setDeleteButton() {
-    if (!this._isMyCard) {
-      this._deleteButton.remove();
-      this._deleteButton = null;
-    }
   }
 
   _setLikeButton() {
@@ -84,16 +75,13 @@ export class Card {
   }
 
   _handlePlacePhotoClick = () => {
-    this._popupImage.src = this._data.link;
-    this._popupImage.alt = this._data.name;
-    this._popupTitle.textContent = this._data.name;
-    this._popup.openPopup();
+    this._onClickPhoto(this._data);
   };
 
   _handleDeleteButtonClick = () => {
     this._deleteButton.disabled = true;
-    api
-      .deleteCard(this._data._id)
+
+    this._onDeleteCard(this._data)
       .then(() => {
         this._removeCardEventListeners();
         this._cardEl.remove();
@@ -108,33 +96,27 @@ export class Card {
     this._likeButton.disabled = true;
 
     if (this._isLiked) {
-      api
-        .deleteLike(this._data._id)
-        .then((data) => {
-          this._likes = data.likes;
-          this._isLiked = this._getIsLike(data.likes);
-          this._setLikeCounter();
-          this._setLikeButton();
-          this._likeButton.disabled = false;
-        })
-        .catch((error) => {
-          this._likeButton.disabled = false;
+      this._onDeleteLike(this._data)
+        .then(({ likes }) => this._onLike({ likes }))
+        .catch(() => {
           console.warn(error);
+          this._likeButton.disabled = false;
         });
     } else {
-      api
-        .putLike(this._data._id)
-        .then((data) => {
-          this._likes = data.likes;
-          this._isLiked = this._getIsLike(data.likes);
-          this._setLikeCounter();
-          this._setLikeButton();
-          this._likeButton.disabled = false;
-        })
-        .catch((error) => {
-          this._likeButton.disabled = false;
+      this._onAddLike(this._data)
+        .then(({ likes }) => this._onLike({ likes }))
+        .catch(() => {
           console.warn(error);
+          this._likeButton.disabled = false;
         });
     }
   };
+
+  _onLike({ likes }) {
+    this._likes = likes;
+    this._isLiked = this._getIsLike(likes);
+    this._setLikeCounter();
+    this._setLikeButton();
+    this._likeButton.disabled = false;
+  }
 }

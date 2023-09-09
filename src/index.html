@@ -40,13 +40,13 @@
       <p class="footer__text">© 2020 Mesto Russia</p>
     </footer>
     <section class="popup popup__change-avatar">
-      <form class="popup__container" novalidate>
+      <form class="popup__form" name="avatar" novalidate>
         <button
           class="popup__button-close popup__button-close_avatar"
           aria-label="Закрыть"
           type="button"
         ></button>
-        <fieldset class="popup__form popup__edit-form" name="change-avatar">
+        <fieldset class="popup__fieldset popup__edit-form">
           <h3 class="popup__title">Обновить аватар</h3>
           <div class="popup__form-field">
             <input
@@ -72,13 +72,13 @@
       </form>
     </section>
     <section class="popup popup__input-profile">
-      <form class="popup__container" novalidate>
+      <form class="popup__form" name="profile" novalidate>
         <button
           class="popup__button-close popup__button-close_input-profile"
           aria-label="Закрыть"
           type="button"
         ></button>
-        <fieldset class="popup__form popup__edit-form" name="profile-form">
+        <fieldset class="popup__fieldset popup__edit-form">
           <h3 class="popup__title">Редактировать профиль</h3>
           <div class="popup__form-field">
             <input
@@ -123,13 +123,13 @@
       </form>
     </section>
     <section class="popup popup__input-place">
-      <form class="popup__container" novalidate>
+      <form class="popup__form" name="place" novalidate>
         <button
           class="popup__button-close popup__button-close_input-place"
           aria-label="Закрыть"
           type="button"
         ></button>
-        <fieldset class="popup__form popup__edit-form" name="place-form">
+        <fieldset class="popup__fieldset popup__edit-form">
           <h3 class="popup__title">Новое место</h3>
           <div class="popup__form-field">
             <input
@@ -151,7 +151,7 @@
               type="url"
               id="input_card-photo"
               class="popup__input popup__input_type_card-photo"
-              name="photo"
+              name="link"
               placeholder="Ссылка&nbsp;на&nbsp;картинку"
               required
             />
@@ -170,7 +170,7 @@
       </form>
     </section>
     <section class="popup popup__big-image">
-      <div class="popup__container_big-image">
+      <div class="popup__container">
         <button
           class="popup__button-close popup__button-close_big-image"
           aria-label="Закрыть"
